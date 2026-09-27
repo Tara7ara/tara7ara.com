@@ -1036,13 +1036,14 @@ footer {
 .tt-media .featured-pills { margin-top: 16px; }
 
 @media (min-width: 901px) and (min-height: 700px) {
-  .js .tt-scroll { height: 420vh; }
+  .js .tt-scroll { height: 420vh; margin-top: -82px; }
   .js .tt-sticky {
     position: sticky;
     top: 0;
     height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 96px;
   }
 }
 

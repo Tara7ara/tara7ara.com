@@ -1,5 +1,21 @@
 // Tara7ara Portfolio Interactions
+document.documentElement.classList.add('js');
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Aparición de bloques al entrar en pantalla
+  const revealables = document.querySelectorAll('.section-header, .featured-card, .project-card, .timeline-item, .skill-box, .cta-card');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealables.forEach((el) => { el.classList.add('reveal'); io.observe(el); });
+  }
+
   // TaraTrack Screenshot Switcher
   const mainImg = document.getElementById('previewMainImg');
   const thumbBtns = document.querySelectorAll('.thumb-btn');

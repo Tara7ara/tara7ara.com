@@ -192,7 +192,7 @@ function initScrollStory() {
 
     if (bigCta) {
       const r = bigCta.getBoundingClientRect();
-      const p = clamp((vh - r.top) / (vh * 0.75));
+      const p = clamp((vh - r.top) / (vh * 0.5));
       bigCta.style.transform = `scale(${0.55 + 0.45 * p})`;
       bigCta.style.opacity = String(0.15 + 0.85 * p);
     }

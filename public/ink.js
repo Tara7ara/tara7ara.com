@@ -84,6 +84,9 @@
       float light = pow(clamp(0.35 + 0.95 * uv.x - 0.55 * uv.y, 0.08, 1.0), 1.1);
       float fade = 1.0 - smoothstep(0.5, 0.96, uv.y);
       float shade = mix(0.35, 1.0, smoothstep(0.0, 0.65, uv.x));
+      // zona del texto de la portada (abajo a la izquierda): la tinta se apaga para que el nombre destaque
+      float textZone = smoothstep(0.3, 0.55, uv.y) * (1.0 - smoothstep(0.5, 0.82, uv.x));
+      shade *= 1.0 - 0.8 * textZone;
       v *= light * fade * shade * (1.0 - 0.6 * scroll);
 
       vec3 col = ramp(v);

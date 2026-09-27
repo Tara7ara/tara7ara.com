@@ -320,17 +320,30 @@ a:hover {
 }
 
 .section-tag {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  margin-bottom: 6px;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
 }
+
+.section-tag::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+}
+
+.tag-num { color: var(--accent); }
 
 .section-title {
   font-size: 1.85rem;
   font-weight: 700;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   margin: 0 0 8px;
 }
@@ -1128,4 +1141,54 @@ footer {
   .js .tt-scroll { height: auto; }
   .js .tt-sticky, .js .hscroll-sticky { position: static; height: auto; }
   .js .hscroll-track { overflow-x: auto; }
+}
+
+/* ---- Pulido en móvil ---- */
+.nav-wrapper { transition: transform 0.35s ease, opacity 0.35s ease; }
+.hscroll-hint { display: none; }
+
+@media (max-width: 900px) {
+  /* TaraTrack: título, captura, pasos y después el resto */
+  .tt-info, .tt-media { display: contents; }
+  .tt-card { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .tt-card .featured-badge { order: 1; align-self: flex-start; }
+  .tt-card .featured-title { order: 2; margin: 12px 0 18px; }
+  .tt-card .tt-frame { order: 3; }
+  .tt-card .tt-steps { order: 4; margin: 20px 0 8px; }
+  .tt-card .featured-summary { order: 5; margin: 12px 0 16px; }
+  .tt-card .featured-pills { order: 6; margin: 0 0 20px; }
+  .tt-card .featured-actions { order: 7; }
+  .tt-step-btn { padding: 4px 0; }
+}
+
+@media (max-width: 768px) {
+  /* la barra se esconde al bajar y vuelve al subir */
+  .nav-wrapper.nav-hidden { transform: translateY(-120%); opacity: 0; }
+
+  .story { height: 170vh; }
+  .story-text { font-size: clamp(1.7rem, 8vw, 2.4rem); }
+
+  /* carrusel a todo el ancho, con la siguiente tarjeta asomando */
+  .hscroll-track {
+    margin: 0 -24px;
+    padding: 0 24px 8px;
+    scroll-padding-left: 24px;
+    scrollbar-width: none;
+  }
+  .hscroll-track::-webkit-scrollbar { display: none; }
+  .hscroll-track .project-card { flex-basis: 78vw; }
+  .hscroll-hint {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin: 14px 0 0;
+  }
+
+  .big-cta { margin-bottom: 28px; }
+  .cta-card { padding: 28px 20px; }
+
+  footer { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .footer-links { flex-wrap: wrap; gap: 10px 18px; }
+  .footer-tag { flex-basis: 100%; margin: 0; }
 }

@@ -207,6 +207,21 @@ function initScrollStory() {
     });
   }
 
+  // En móvil la barra se esconde al bajar y reaparece al subir
+  const navWrap = document.querySelector('.nav-wrapper');
+  const small = window.matchMedia('(max-width: 768px)');
+  let lastY = window.scrollY;
+  function toggleNav() {
+    if (!navWrap) return;
+    const y = window.scrollY;
+    const down = y > lastY + 4;
+    const up = y < lastY - 4;
+    if (small.matches && down && y > 120) navWrap.classList.add('nav-hidden');
+    else if (up || y <= 120 || !small.matches) navWrap.classList.remove('nav-hidden');
+    if (down || up) lastY = y;
+  }
+  window.addEventListener('scroll', toggleNav, { passive: true });
+
   const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
   window.addEventListener('scroll', request, { passive: true });
   window.addEventListener('resize', request);

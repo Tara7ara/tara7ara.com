@@ -1193,3 +1193,9 @@ footer {
   .footer-links { flex-wrap: wrap; gap: 10px 18px; }
   .footer-tag { flex-basis: 100%; margin: 0; }
 }
+
+/* Nombre de la portada: naranja más intenso y sombra para que se lea sobre la tinta */
+.hero-full .accent-text {
+  color: #ff7a2e;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.85), 0 0 2px rgba(0, 0, 0, 0.6);
+}

@@ -8,8 +8,4 @@ Es HTML, CSS y un poco de JS a pelo, sin frameworks ni build. Todo lo que se pub
 - Cabeceras de seguridad (CSP estricta, HSTS, nosniff...) en `public/_headers`.
 - `/acceso` es la página a la que redirige Cloudflare Access cuando alguien sin permiso intenta entrar en TaraTrack.
 
-Para verla en local:
-
-```sh
-cd public && python -m http.server 8000
-```
+Puedes verla en [tara7ara.com](https://tara7ara.com).

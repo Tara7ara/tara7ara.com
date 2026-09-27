@@ -16,22 +16,25 @@
     precision highp float;
     uniform vec2 res;
     uniform float time;
+    uniform float scroll;
 
-    float hash(vec2 p) {
-      p = fract(p * vec2(123.34, 456.21));
-      p += dot(p, p + 45.32);
-      return fract(p.x * p.y);
+    // hash22 de Dave Hoskins (MIT), sin seno para evitar patrones
+    vec2 hash2(vec2 p) {
+      vec3 p3 = fract(vec3(p.xyx) * vec3(0.1031, 0.1030, 0.0973));
+      p3 += dot(p3, p3.yzx + 33.33);
+      return fract((p3.xx + p3.yz) * p3.zy) * 2.0 - 1.0;
     }
 
+    // ruido de gradiente con interpolación quíntica: sin costuras de rejilla
     float noise(vec2 p) {
       vec2 i = floor(p);
       vec2 f = fract(p);
-      vec2 u = f * f * (3.0 - 2.0 * f);
-      float a = hash(i);
-      float b = hash(i + vec2(1.0, 0.0));
-      float c = hash(i + vec2(0.0, 1.0));
-      float d = hash(i + vec2(1.0, 1.0));
-      return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+      vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+      float a = dot(hash2(i), f);
+      float b = dot(hash2(i + vec2(1.0, 0.0)), f - vec2(1.0, 0.0));
+      float c = dot(hash2(i + vec2(0.0, 1.0)), f - vec2(0.0, 1.0));
+      float d = dot(hash2(i + vec2(1.0, 1.0)), f - vec2(1.0, 1.0));
+      return mix(mix(a, b, u.x), mix(c, d, u.x), u.y) * 0.85 + 0.5;
     }
 
     float fbm(vec2 p) {
@@ -47,7 +50,7 @@
     }
 
     vec3 ramp(float t) {
-      vec3 c0 = vec3(11.0, 11.0, 12.0) / 255.0;
+      vec3 c0 = vec3(0.0);
       vec3 c1 = vec3(34.0, 12.0, 6.0) / 255.0;
       vec3 c2 = vec3(110.0, 38.0, 14.0) / 255.0;
       vec3 c3 = vec3(214.0, 104.0, 52.0) / 255.0;
@@ -64,7 +67,7 @@
     void main() {
       vec2 frag = gl_FragCoord.xy;
       vec2 uv = vec2(frag.x / res.x, 1.0 - frag.y / res.y);
-      vec2 p = vec2(frag.x, res.y - frag.y) / res.y * 1.5;
+      vec2 p = vec2(frag.x, res.y - frag.y) / res.y * (1.5 - 0.25 * scroll);
       float t = time * 0.035;
 
       vec2 q = vec2(fbm(p + vec2(0.0, t)), fbm(p + vec2(5.2, 1.3) - vec2(t * 0.7, 0.0)));
@@ -79,12 +82,13 @@
 
       // luz arriba a la derecha, sombra donde va el texto y fundido total al negro del fondo abajo
       float light = pow(clamp(0.35 + 0.95 * uv.x - 0.55 * uv.y, 0.08, 1.0), 1.1);
-      float fade = 1.0 - smoothstep(0.55, 0.97, uv.y);
-      v *= light * fade;
+      float fade = 1.0 - smoothstep(0.5, 0.96, uv.y);
+      float shade = mix(0.35, 1.0, smoothstep(0.0, 0.65, uv.x));
+      v *= light * fade * shade * (1.0 - 0.6 * scroll);
 
       vec3 col = ramp(v);
       // dithering para que no se vean escalones en los degradados
-      col += (hash(frag + fract(time)) - 0.5) / 255.0;
+      col = max(col + hash2(frag + fract(time) * 17.0).x * 0.75 / 255.0, 0.0);
       gl_FragColor = vec4(col, 1.0);
     }
   `;
@@ -116,10 +120,11 @@
 
   const uRes = gl.getUniformLocation(prog, 'res');
   const uTime = gl.getUniformLocation(prog, 'time');
+  const uScroll = gl.getUniformLocation(prog, 'scroll');
 
   // Se renderiza por debajo de la resolución nativa: la tinta es suave y así no pesa en pantallas 4K
   function resize() {
-    const scale = Math.min(window.devicePixelRatio || 1, 1.5) * 0.75;
+    const scale = Math.min(window.devicePixelRatio || 1, 1.5);
     const w = Math.round(canvas.clientWidth * scale);
     const h = Math.round(canvas.clientHeight * scale);
     if (canvas.width !== w || canvas.height !== h) {
@@ -138,6 +143,7 @@
     resize();
     gl.uniform2f(uRes, canvas.width, canvas.height);
     gl.uniform1f(uTime, (now - start) / 1000);
+    gl.uniform1f(uScroll, window.inkScroll || 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 
@@ -152,6 +158,7 @@
 
   draw(performance.now());
   canvas.classList.add('ready');
+  canvas.parentElement.classList.add('has-ink');
 
   if (still) {
     window.addEventListener('resize', () => draw(performance.now()));

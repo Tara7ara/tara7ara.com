@@ -1,14 +1,14 @@
 :root {
-  --bg: #0b0b0c;
-  --bg-subtle: #111112;
-  --card: #141415;
-  --card-hover: #1a1a1b;
+  --bg: #000000;
+  --bg-subtle: #070707;
+  --card: #0c0c0c;
+  --card-hover: #121212;
   --card-border: rgba(255, 255, 255, 0.08);
   --card-border-hover: rgba(255, 158, 100, 0.35);
   
-  --text-primary: #ecebe9;
-  --text-secondary: #a3a09c;
-  --text-dim: #75726f;
+  --text-primary: #ffffff;
+  --text-secondary: #a6a6a6;
+  --text-dim: #737373;
   
   --accent: #ff9e64;
   
@@ -90,7 +90,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 20px;
-  background: rgba(17, 17, 18, 0.85);
+  background: rgba(10, 10, 10, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--card-border);
@@ -175,13 +175,16 @@ a:hover {
 
 .hero-ink.ready { opacity: 1; }
 
+/* Con WebGL el sombreado lo hace el shader con dithering; los degradados CSS dejaban escalones */
+.hero-full.has-ink::after { display: none; }
+
 .hero-full::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(11, 11, 12, 0) 50%, var(--bg) 94%),
-    linear-gradient(90deg, rgba(11, 11, 12, 0.7) 0%, rgba(11, 11, 12, 0.15) 60%, rgba(11, 11, 12, 0) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, var(--bg) 94%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.15) 60%, rgba(0, 0, 0, 0) 100%);
   pointer-events: none;
 }
 
@@ -415,7 +418,7 @@ a:hover {
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 0.8rem;
-  color: #ecebe9;
+  color: #ffffff;
   font-family: var(--font-mono);
 }
 
@@ -601,6 +604,7 @@ a:hover {
   background: var(--accent);
   border-radius: 50%;
   box-shadow: 0 0 10px var(--accent);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
 .exp-card {
@@ -875,4 +879,253 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .hero-inner > * { animation: none; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Scrollytelling */
+.hero-inner { will-change: transform, opacity; }
+
+.story { position: relative; height: 230vh; }
+
+.story-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+.story-text {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+  font-size: clamp(1.8rem, 4.4vw, 3.6rem);
+  line-height: 1.16;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.story-text em { font-style: normal; color: var(--accent); }
+
+.js .story-text .w { color: rgba(255, 255, 255, 0.13); transition: color 0.3s ease; }
+.js .story-text .w.on { color: var(--text-primary); }
+.js .story-text .w.key.on { color: var(--accent); }
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: calc(var(--fill, 1) * 100%);
+  background: linear-gradient(180deg, var(--accent), rgba(255, 158, 100, 0.4));
+  box-shadow: 0 0 8px rgba(255, 158, 100, 0.5);
+}
+
+.js .timeline-dot { background: #2a2a2b; box-shadow: none; }
+.js .timeline-item.passed .timeline-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .story { height: auto; }
+  .story-sticky { position: static; height: auto; padding: 96px 0; }
+  .js .story-text .w { color: var(--text-primary); }
+  .js .story-text .w.key { color: var(--accent); }
+  .js .timeline-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+}
+
+/* ---- TaraTrack fijo con pasos ---- */
+.tt-scroll { position: relative; }
+
+.tt-card {
+  display: grid;
+  grid-template-columns: 0.95fr 1.15fr;
+  gap: 40px;
+  padding: 36px;
+  align-items: center;
+}
+
+.tt-info .featured-summary { font-size: 0.95rem; margin-bottom: 20px; }
+
+.tt-steps { list-style: none; margin: 0 0 24px; padding: 0; border-left: 1px solid var(--card-border); }
+
+.tt-step { padding: 8px 0 8px 18px; position: relative; }
+
+.tt-step::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s ease;
+}
+
+.tt-step-btn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  transition: color 0.3s ease;
+}
+
+.tt-num { font-family: var(--font-mono); font-size: 0.75rem; }
+.tt-step-title { font-size: 1.05rem; }
+
+.tt-step p {
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  transition: max-height 0.45s ease, opacity 0.35s ease, margin 0.35s ease;
+}
+
+.tt-step.active::before { transform: scaleY(1); }
+.tt-step.active .tt-step-btn { color: var(--text-primary); }
+.tt-step.active .tt-num { color: var(--accent); }
+.tt-step.active p { max-height: 6em; opacity: 1; margin-top: 6px; }
+
+.tt-frame {
+  position: relative;
+  aspect-ratio: 1440 / 757;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  background: #050505;
+  cursor: zoom-in;
+  box-shadow: 0 30px 80px rgba(255, 158, 100, 0.08);
+}
+
+.tt-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.tt-shot.active { opacity: 1; transform: none; }
+
+.tt-media .featured-pills { margin-top: 16px; }
+
+@media (min-width: 901px) and (min-height: 700px) {
+  .js .tt-scroll { height: 420vh; }
+  .js .tt-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .tt-card { grid-template-columns: 1fr; padding: 24px; gap: 24px; }
+  .tt-media { order: -1; }
+}
+
+/* ---- Más proyectos en horizontal ---- */
+.hscroll { position: relative; margin-top: 32px; }
+
+.hscroll-head { margin-bottom: 28px; }
+
+.hscroll-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 8px 0 0;
+}
+
+.hscroll-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+}
+
+.hscroll-track .project-card {
+  flex: 0 0 min(420px, 85vw);
+  scroll-snap-align: start;
+}
+
+@media (min-width: 901px) and (min-height: 700px) {
+  .js .hscroll-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .js .hscroll-sticky {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    --edge: max(24px, calc((100vw - 1000px) / 2 + 24px));
+  }
+  .js .hscroll-head { padding-left: var(--edge); }
+  .js .hscroll-track {
+    overflow: visible;
+    scroll-snap-type: none;
+    will-change: transform;
+    padding: 0 var(--edge);
+  }
+  .js .hscroll-track .project-card { flex-basis: 440px; }
+}
+
+/* ---- Cintas del stack ---- */
+.marquee {
+  width: 100vw;
+  margin: 8px 0 48px calc(50% - 50vw);
+  overflow: hidden;
+  user-select: none;
+}
+
+.mq-row {
+  white-space: nowrap;
+  font-size: clamp(2.6rem, 8vw, 7.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  will-change: transform;
+}
+
+.mq-row span { display: inline-block; }
+.mq-solid { color: var(--text-primary); }
+.mq-outline { color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.45); }
+.mq-accent { color: var(--accent); }
+
+/* ---- ¿Hablamos? ---- */
+.big-cta {
+  text-align: center;
+  font-size: clamp(3.5rem, 13vw, 11rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin: 0 0 40px;
+  color: var(--text-primary);
+  will-change: transform, opacity;
+}
+
+.big-cta::first-letter { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .tt-scroll { height: auto; }
+  .js .tt-sticky, .js .hscroll-sticky { position: static; height: auto; }
+  .js .hscroll-track { overflow-x: auto; }
 }

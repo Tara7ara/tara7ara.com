@@ -81,12 +81,15 @@
       float v = clamp(0.55 * vein + 0.6 * glow * vein + 0.25 * glow * glow, 0.0, 1.0);
 
       // luz arriba a la derecha, sombra donde va el texto y fundido total al negro del fondo abajo
-      float light = pow(clamp(0.35 + 0.95 * uv.x - 0.55 * uv.y, 0.08, 1.0), 1.1);
+      // luz repartida por todo el ancho, un poco más fuerte arriba
+      float light = clamp(1.0 - 0.35 * uv.y + 0.1 * uv.x, 0.0, 1.0);
       float fade = 1.0 - smoothstep(0.5, 0.96, uv.y);
-      float shade = mix(0.35, 1.0, smoothstep(0.0, 0.65, uv.x));
+      float shade = 1.0;
       // zona del texto de la portada (abajo a la izquierda): la tinta se apaga para que el nombre destaque
-      float textZone = smoothstep(0.3, 0.55, uv.y) * (1.0 - smoothstep(0.5, 0.82, uv.x));
-      shade *= 1.0 - 0.8 * textZone;
+      // en pantallas verticales el texto ocupa todo el ancho, así que la zona oscura también
+      float wide = step(res.y, res.x);
+      float textZone = smoothstep(0.3, 0.55, uv.y) * (1.0 - smoothstep(mix(0.95, 0.5, wide), mix(1.4, 0.82, wide), uv.x));
+      shade *= 1.0 - 0.85 * textZone;
       v *= light * fade * shade * (1.0 - 0.6 * scroll);
 
       vec3 col = ramp(v);
@@ -140,7 +143,8 @@
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let visible = true;
   let raf = 0;
-  const start = performance.now() - 20000;
+  // Cada visita arranca en un momento distinto de la animación (entre 0 y 10 minutos)
+  const start = performance.now() - Math.random() * 600000;
 
   function draw(now) {
     resize();

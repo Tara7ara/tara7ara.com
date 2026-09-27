@@ -6,7 +6,9 @@
   <title>Taratara · Ciberseguridad, Sistemas y Software</title>
   <meta name="description" content="Portfolio y CV de Taratara (tara7ara). Ciberseguridad, administración de sistemas/redes y desarrollo Python. Proyectos, experiencia y contacto.">
   <meta name="color-scheme" content="dark">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -32,6 +34,7 @@
   <!-- Hero -->
   <header class="hero-full">
     <div class="hero-bg" aria-hidden="true"></div>
+    <canvas id="ink" class="hero-ink" aria-hidden="true"></canvas>
     <div class="container hero-inner">
       <h1>
         Hola, soy <span class="accent-text">Taratara</span>
@@ -467,6 +470,7 @@
     </div>
   </div>
 
+  <script src="/ink.js" defer></script>
   <script src="/app.js"></script>
 </body>
 </html>

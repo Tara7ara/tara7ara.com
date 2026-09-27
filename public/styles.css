@@ -159,17 +159,28 @@ a:hover {
 
 .hero-bg {
   position: absolute;
-  inset: -4%;
+  inset: 0;
   background: url("/img/hero.webp") center / cover no-repeat;
-  animation: drift 40s ease-in-out infinite alternate;
 }
+
+.hero-ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.hero-ink.ready { opacity: 1; }
 
 .hero-full::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(11, 11, 12, 0) 40%, var(--bg) 100%),
+    linear-gradient(180deg, rgba(11, 11, 12, 0) 50%, var(--bg) 94%),
     linear-gradient(90deg, rgba(11, 11, 12, 0.7) 0%, rgba(11, 11, 12, 0.15) 60%, rgba(11, 11, 12, 0) 100%);
   pointer-events: none;
 }
@@ -190,11 +201,6 @@ a:hover {
 @keyframes rise {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: none; }
-}
-
-@keyframes drift {
-  from { transform: scale(1) translate(0, 0); }
-  to { transform: scale(1.08) translate(-2%, 1.5%); }
 }
 
 @media (max-width: 768px) {
@@ -867,6 +873,6 @@ footer {
 .js .reveal.visible { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-bg, .hero-inner > * { animation: none; }
+  .hero-inner > * { animation: none; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
 }

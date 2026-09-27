@@ -20,6 +20,8 @@ La tinta naranja del inicio no es un vídeo ni una imagen: se pinta en tiempo re
 - **Vetas**: sobre ese ruido deformado se aplica una onda senoidal diagonal, y así salen las franjas largas que parecen llamas.
 - **Color**: el valor final se pasa por una rampa negro → brasa → óxido → naranja → melocotón.
 - **Movimiento**: el tiempo desplaza el ruido muy despacio, así que se mueve fluido a la resolución de cada pantalla (no hay imagen que se estire en un monitor grande).
+- **Cada visita es distinta**: como el ruido es una fórmula fija, el mismo instante da siempre la misma forma. Para que no salga siempre igual, la animación arranca en un momento al azar entre el segundo 0 y el minuto 10, así que cada vez que entras las llamas tienen otra forma.
+- **Zona del texto**: las llamas se reparten por toda la parte de arriba, pero se apagan detrás del texto de la portada (abajo a la izquierda, o todo el ancho en móvil) para que el nombre se lea siempre.
 - **Sin escalones en el negro**: el oscurecido y el fundido con el fondo se hacen dentro del shader y se le añade un dithering finísimo. Con degradados CSS encima salían bandas en tonos tan oscuros.
 - **No gasta de más**: solo se anima mientras la portada se ve y la pestaña está activa. Si no hay WebGL, se queda una imagen fija generada con el mismo algoritmo.
 

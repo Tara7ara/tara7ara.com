@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/logo.svg" width="140" alt="Logo de tara7ara.com"></p>
+
 # tara7ara.com
 
 Este es el repo de mi web personal (portfolio, experiencia y CV), que está publicada en mi propio dominio: **[tara7ara.com](https://tara7ara.com)**.

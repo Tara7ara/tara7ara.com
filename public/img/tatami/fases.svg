@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 495" role="img" aria-label="Tatami Shell: grafo de fases de un ataque, con la fase de escalada detectada">
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#737373"/>
+    </marker>
+    <marker id="ahw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#ff9e64"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="495" fill="#0a0a0b"/>
+
+  <!-- cabecera tipo terminal -->
+  <circle cx="30" cy="34" r="5" fill="#333"/>
+  <circle cx="48" cy="34" r="5" fill="#333"/>
+  <circle cx="66" cy="34" r="5" fill="#333"/>
+  <text x="90" y="39" font-family="ui-monospace, monospace" font-size="19" fill="#737373">tatami · clasifica la fase del atacante en tiempo real</text>
+
+  <!-- aristas del grafo -->
+  <g stroke="#737373" stroke-width="2" fill="none">
+    <line x1="178" y1="250" x2="202" y2="250" marker-end="url(#ah)"/>
+    <line x1="516" y1="250" x2="540" y2="250" marker-end="url(#ah)"/>
+    <line x1="684" y1="250" x2="708" y2="250" marker-end="url(#ah)"/>
+  </g>
+  <!-- arista hacia la fase detectada (naranja) -->
+  <line x1="346" y1="250" x2="370" y2="250" stroke="#ff9e64" stroke-width="2.5" marker-end="url(#ahw)"/>
+  <!-- bucle de estado inferior (feel de grafo) -->
+  <path d="M 790 282 C 790 356, 100 356, 100 282" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-dasharray="5 6" marker-end="url(#ah)"/>
+  <text x="445" y="388" font-family="ui-monospace, monospace" font-size="15" fill="#555" text-anchor="middle">transiciones de estado observadas</text>
+
+  <g font-family="ui-monospace, monospace" font-size="18" text-anchor="middle">
+    <!-- Recon -->
+    <rect x="28" y="222" width="150" height="56" rx="10" fill="rgba(255,255,255,0.03)" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="103" y="256" fill="#c9c9c9">Recon</text>
+    <!-- Acceso -->
+    <rect x="198" y="222" width="150" height="56" rx="10" fill="rgba(255,255,255,0.03)" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="273" y="256" fill="#c9c9c9">Acceso</text>
+    <!-- Escalada (detectada) -->
+    <rect x="368" y="216" width="150" height="68" rx="10" fill="rgba(255,158,100,0.12)" stroke="#ff9e64" stroke-width="2"/>
+    <text x="443" y="244" fill="#ff9e64">Escalada</text>
+    <text x="443" y="266" font-size="12" fill="#ff9e64" fill-opacity="0.8">fase detectada</text>
+    <!-- Persistencia -->
+    <rect x="538" y="222" width="150" height="56" rx="10" fill="rgba(255,255,255,0.03)" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="613" y="256" fill="#c9c9c9">Persistencia</text>
+    <!-- Exfiltración -->
+    <rect x="708" y="222" width="150" height="56" rx="10" fill="rgba(255,255,255,0.03)" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="783" y="256" fill="#c9c9c9">Exfiltración</text>
+  </g>
+</svg>

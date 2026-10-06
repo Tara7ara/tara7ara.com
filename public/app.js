@@ -25,35 +25,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initScrollStory();
 
-  // Visor ampliado de la captura activa de TaraTrack
+  // Visor de capturas en galería (TaraTrack, TaraScan, TarArch)
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImg');
   const modalCaption = document.getElementById('modalCaption');
+  const modalCount = document.getElementById('modalCount');
   const modalClose = document.getElementById('modalClose');
-  const ttFrame = document.getElementById('ttFrame');
+  const modalPrev = document.getElementById('modalPrev');
+  const modalNext = document.getElementById('modalNext');
 
-  if (ttFrame && modal && modalImg) {
+  let gallery = [];
+  let gIndex = 0;
+
+  function renderShot() {
+    if (!gallery.length || !modalImg) return;
+    const shot = gallery[gIndex];
+    modalImg.src = shot.src;
+    modalImg.alt = shot.caption || 'Vista previa';
+    if (modalCaption) modalCaption.textContent = shot.caption || '';
+    const multi = gallery.length > 1;
+    if (modalCount) modalCount.textContent = multi ? `${gIndex + 1} / ${gallery.length}` : '';
+    if (modalPrev) modalPrev.hidden = !multi;
+    if (modalNext) modalNext.hidden = !multi;
+  }
+
+  function openGallery(shots, start) {
+    if (!modal || !shots.length) return;
+    gallery = shots;
+    gIndex = Math.min(Math.max(start || 0, 0), shots.length - 1);
+    renderShot();
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function step(d) {
+    if (gallery.length < 2) return;
+    gIndex = (gIndex + d + gallery.length) % gallery.length;
+    renderShot();
+  }
+
+  // TaraTrack: abre la galería de sus capturas desde la que está activa
+  const ttFrame = document.getElementById('ttFrame');
+  if (ttFrame) {
     ttFrame.addEventListener('click', () => {
-      const shot = ttFrame.querySelector('.tt-shot.active') || ttFrame.querySelector('.tt-shot');
-      modalImg.src = shot.src;
-      modalCaption.textContent = shot.dataset.caption || shot.alt;
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      const shotEls = [...ttFrame.querySelectorAll('.tt-shot')];
+      const shots = shotEls.map((im) => ({ src: im.src, caption: im.dataset.caption || im.alt }));
+      const start = shotEls.indexOf(ttFrame.querySelector('.tt-shot.active'));
+      openGallery(shots, start);
     });
   }
 
-  if (modalClose && modal) {
+  // Portadas de las tarjetas del carrusel (data-shots = "ruta|pie;;ruta|pie;...")
+  document.querySelectorAll('.card-cover').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const shots = (btn.dataset.shots || '').split(';;').map((s) => {
+        const [src, caption] = s.split('|');
+        return { src, caption: caption || '' };
+      }).filter((s) => s.src);
+      openGallery(shots, 0);
+    });
+  });
+
+  if (modal) {
     const closeModal = () => {
       modal.classList.remove('active');
       document.body.style.overflow = '';
     };
-
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    if (modalPrev) modalPrev.addEventListener('click', (e) => { e.stopPropagation(); step(-1); });
+    if (modalNext) modalNext.addEventListener('click', (e) => { e.stopPropagation(); step(1); });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+      if (!modal.classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') step(-1);
+      else if (e.key === 'ArrowRight') step(1);
     });
   }
 

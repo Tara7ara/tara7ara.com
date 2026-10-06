@@ -6,6 +6,22 @@
   <title>Taratara · Ciberseguridad, Sistemas y Software</title>
   <meta name="description" content="Portfolio y CV de Taratara (tara7ara). Ciberseguridad, administración de sistemas/redes y desarrollo Python. Proyectos, experiencia y contacto.">
   <meta name="color-scheme" content="dark">
+
+  <!-- Open Graph / previsualización al compartir -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="tara7ara.com">
+  <meta property="og:title" content="Taratara · Ciberseguridad, Sistemas y Software">
+  <meta property="og:description" content="Portfolio y CV de Taratara (tara7ara). Ciberseguridad, sistemas y redes y desarrollo en Python. Homelab propio, seguridad ofensiva y software autoalojado.">
+  <meta property="og:url" content="https://tara7ara.com/">
+  <meta property="og:image" content="https://tara7ara.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Taratara — Ciberseguridad, Sistemas y Redes, Desarrollo">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Taratara · Ciberseguridad, Sistemas y Software">
+  <meta name="twitter:description" content="Portfolio y CV de Taratara (tara7ara). Ciberseguridad, sistemas y redes y desarrollo en Python.">
+  <meta name="twitter:image" content="https://tara7ara.com/img/og.png">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
@@ -153,19 +169,22 @@
             <h3 class="hscroll-title">Y lo que hay alrededor</h3>
           </div>
           <div class="hscroll-track">
-        
+
         <!-- TaraScan -->
         <div class="project-card">
           <div class="project-top">
+            <button type="button" class="card-cover" data-shots="/img/tarascan/recon-puertos.webp|Recon · puertos, versiones y scripts NSE;;/img/tarascan/ia-objetivo.webp|Copiloto IA · análisis y siguientes pasos;;/img/tarascan/mapa-red.webp|Mapa de red local · dispositivos, MAC y fabricante;;/img/tarascan/ia-red.webp|Copiloto IA · objetivos prioritarios de la red">
+              <img src="/img/tarascan/recon-puertos.webp" alt="TaraScan: recon de puertos con tabla de servicios, scripts NSE y CVE" loading="lazy">
+            </button>
             <span class="project-badge">recon · pentesting</span>
             <h3>TaraScan</h3>
-            <p>Wrapper de reconocimiento en Python para pentesting y auditorías autorizadas: lanza Nmap, Nuclei, Gobuster y Enum4linux en paralelo, junta todas las salidas y genera un informe estructurado en Markdown.</p>
+            <p>Navaja suiza de recon y pentesting en Python: lanza Nmap, Nuclei, Gobuster y compañía en paralelo y unifica la salida. Suma mapa de red local (MAC/fabricante), subcomandos ofensivos (hashes, JWT, enum web, audit SSH/TLS/SMB, CVEs), informe MD/HTML y copiloto de IA.</p>
             <div class="project-tags">
               <span class="tag">python</span>
               <span class="tag">nmap</span>
-              <span class="tag">nuclei</span>
-              <span class="tag">gobuster</span>
-              <span class="tag">concurrencia</span>
+              <span class="tag">mapa-de-red</span>
+              <span class="tag">web</span>
+              <span class="tag">copiloto-ia</span>
             </div>
           </div>
           <div class="project-footer">
@@ -179,8 +198,12 @@
         <!-- Tatami Shell -->
         <div class="project-card">
           <div class="project-top">
+            <button type="button" class="card-cover" data-shots="/img/tatami/fases.svg|Tatami · grafo de fases del ataque (escalada detectada)">
+              <img src="/img/tatami/fases.svg" alt="Tatami Shell: grafo de fases de un ataque con la escalada detectada" loading="lazy">
+            </button>
             <span class="project-badge">honeypot · defensa</span>
             <h3>Tatami Shell</h3>
+            <p class="project-note">Proyecto en grupo · universidad</p>
             <p>Honeypot interactivo de terminal Linux para modelar intrusiones reales. Clasifica las fases y el comportamiento del atacante en tiempo real mediante grafos de estados.</p>
             <div class="project-tags">
               <span class="tag">honeypot</span>
@@ -200,12 +223,14 @@
         <!-- Homelab & Infra -->
         <div class="project-card">
           <div class="project-top">
+            <button type="button" class="card-cover" data-shots="/img/homelab/arquitectura.svg|Homelab · arquitectura del servidor casero 24/7">
+              <img src="/img/homelab/arquitectura.svg" alt="Homelab: arquitectura de Internet a Cloudflare, Nginx Proxy Manager y servicios Docker" loading="lazy">
+            </button>
             <span class="project-badge">infra · homelab</span>
             <h3>Homelab 24/7 & Seguridad</h3>
             <p>Servidor casero con Docker tras Nginx Proxy Manager: SIEM Wazuh para detección de amenazas, DNS interno con AdGuard y Unbound, VPN WireGuard y servicios en loopback filtrados con iptables.</p>
             <div class="project-tags">
               <span class="tag">wazuh-siem</span>
-              <span class="tag">fortinet</span>
               <span class="tag">wireguard</span>
               <span class="tag">docker</span>
               <span class="tag">iptables</span>
@@ -219,9 +244,12 @@
         <!-- TarArch -->
         <div class="project-card">
           <div class="project-top">
+            <button type="button" class="card-cover" data-shots="/img/tararch/desktop.webp|Escritorio Hyprland + Waybar;;/img/tararch/control-center.webp|Centro de control propio (GTK);;/img/tararch/dashboard.webp|Dashboard del sistema (Super+Tab);;/img/tararch/lanzador.webp|Lanzador de aplicaciones (Super+Space)">
+              <img src="/img/tararch/desktop.webp" alt="TarArch: escritorio Hyprland con Waybar, neofetch y git log" loading="lazy">
+            </button>
             <span class="project-badge">arch · hyprland</span>
             <h3>TarArch</h3>
-            <p>Mi entorno diario de trabajo sobre Arch Linux y Hyprland. Waybar modular en islas, centro de control propio en GTK3/Python y varios bugs de NVIDIA/Wayland cazados por el camino.</p>
+            <p>Mi entorno diario de trabajo sobre Arch Linux y Hyprland. Waybar modular en islas, centro de control propio en GTK3/Python (toggles, agenda, dashboard) y varios bugs de NVIDIA/Wayland cazados por el camino.</p>
             <div class="project-tags">
               <span class="tag">arch-linux</span>
               <span class="tag">hyprland</span>
@@ -496,11 +524,13 @@
   <!-- Lightbox Modal -->
   <div id="imageModal" class="modal-lightbox">
     <div class="modal-content">
-      <button class="modal-close" id="modalClose">&times;</button>
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+      <button class="modal-nav modal-prev" id="modalPrev" aria-label="Anterior" hidden>&lsaquo;</button>
+      <button class="modal-nav modal-next" id="modalNext" aria-label="Siguiente" hidden>&rsaquo;</button>
       <img id="modalImg" src="" alt="Vista previa">
       <div class="modal-caption">
         <span id="modalCaption"></span>
-        <span class="modal-sub">TaraTrack Preview</span>
+        <span class="modal-sub" id="modalCount"></span>
       </div>
     </div>
   </div>

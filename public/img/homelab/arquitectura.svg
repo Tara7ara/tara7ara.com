@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 495" role="img" aria-label="Homelab: arquitectura de Internet a Cloudflare, Nginx Proxy Manager y servicios Docker tras iptables">
+  <defs>
+    <marker id="ha" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#ff9e64"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="495" fill="#0a0a0b"/>
+
+  <!-- cabecera tipo terminal -->
+  <circle cx="30" cy="34" r="5" fill="#333"/>
+  <circle cx="48" cy="34" r="5" fill="#333"/>
+  <circle cx="66" cy="34" r="5" fill="#333"/>
+  <text x="90" y="39" font-family="ui-monospace, monospace" font-size="19" fill="#737373">homelab · servidor casero 24/7</text>
+
+  <!-- flujo principal -->
+  <g stroke="#ff9e64" stroke-width="2.5" fill="none">
+    <line x1="150" y1="250" x2="186" y2="250" marker-end="url(#ha)"/>
+    <line x1="314" y1="250" x2="350" y2="250" marker-end="url(#ha)"/>
+    <line x1="478" y1="250" x2="516" y2="250" marker-end="url(#ha)"/>
+  </g>
+
+  <g font-family="ui-monospace, monospace" font-size="17" text-anchor="middle">
+    <!-- Internet -->
+    <rect x="30" y="222" width="120" height="56" rx="10" fill="rgba(255,255,255,0.03)" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="90" y="256" fill="#c9c9c9">Internet</text>
+    <!-- Cloudflare -->
+    <rect x="186" y="222" width="128" height="56" rx="10" fill="rgba(255,255,255,0.03)" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="250" y="249" fill="#c9c9c9">Cloudflare</text>
+    <text x="250" y="268" font-size="12" fill="#737373">DNS · tunnel</text>
+    <!-- NPM -->
+    <rect x="350" y="222" width="128" height="56" rx="10" fill="rgba(255,255,255,0.03)" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="414" y="249" fill="#c9c9c9">Nginx Proxy</text>
+    <text x="414" y="268" font-size="12" fill="#737373">Manager</text>
+  </g>
+
+  <!-- caja Docker con iptables -->
+  <rect x="516" y="150" width="336" height="200" rx="14" fill="rgba(255,158,100,0.04)" stroke="#ff9e64" stroke-opacity="0.45" stroke-dasharray="7 6"/>
+  <text x="684" y="178" font-family="ui-monospace, monospace" font-size="16" fill="#ff9e64" text-anchor="middle">Docker · iptables · loopback</text>
+
+  <g font-family="ui-monospace, monospace" font-size="16" text-anchor="middle">
+    <rect x="540" y="196" width="288" height="40" rx="8" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="684" y="221" fill="#e0e0e0">Wazuh SIEM</text>
+    <rect x="540" y="244" width="288" height="40" rx="8" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="684" y="269" fill="#e0e0e0">AdGuard + Unbound</text>
+    <rect x="540" y="292" width="288" height="40" rx="8" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="684" y="317" fill="#e0e0e0">WireGuard VPN</text>
+  </g>
+</svg>
